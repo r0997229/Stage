@@ -1,0 +1,165 @@
+/*app\static\css\style.css*/
+
+:root {
+    --primary: #0078d4;
+    --primary-dark: #005a9e;
+    --bg-app: #fafafa;
+    --bg-card: #ffffff;
+    --text-main: #1d2530;
+    --text-muted: #6b7280;
+    --border-soft: #e3e6eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-app);
+    color: var(--text-main);
+}
+
+/* ---------- APP SHELL ---------- */
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px 30px;
+}
+
+.container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px 36px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* ---------- TOP BAR (NAV + LOGO) ---------- */
+.top-bar {
+    max-width: 1200px;
+    margin: 0 auto 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-logo {
+    height: 100px;
+    width: auto;
+    pointer-events: none;
+}
+
+/* ---------- NAVBAR ---------- */
+nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+nav a,
+nav span {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+nav a {
+    color: var(--primary);
+}
+
+nav a:hover {
+    background: #e7f0fb;
+}
+
+nav a.active {
+    background: var(--primary);
+    color: #fff;
+}
+
+nav .disabled {
+    color: #9aa3af;
+    cursor: not-allowed;
+}
+
+.debug {
+    color: red;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .container {
+        padding: 24px 20px;
+    }
+
+    nav {
+        justify-content: center;
+    }
+}
+
+/* ----------------------------------------------
+   Toast Notifications
+---------------------------------------------- */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 5000;
+}
+
+.toast {
+    min-width: 260px;
+    max-width: 360px;
+    padding: 14px 18px;
+    background: #ffffff;
+    color: #1d2530;
+    border-left: 5px solid #d9534f; /* red for error */
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-15px);
+    animation: toast-in 0.3s forwards ease-out;
+}
+
+.toast--error {
+    border-left-color: #d9534f;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    margin-left: auto;
+    cursor: pointer;
+    color: #888;
+}
+
+.toast-close:hover {
+    color: #333;
+}
+
+@keyframes toast-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes toast-out {
+    to {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+}
+

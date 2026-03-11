@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% set active_page = "generator" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/document_inputs.css') }}">
+<script defer src="{{ url_for('static', filename='js/document_inputs.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>📄 {{ doc_type }} — Specific Inputs</h1>
+</header>
+
+<main class="table-cards" id="pageContent">
+    {% for key, rows in tables.items() %}
+    <div class="card" data-section="{{ key }}">
+        <div class="card-top">
+            <div class="icon">📝</div>
+        </div>
+        <div class="card-bottom">
+            <h2>{{ key.replace("_", " ").title() }}</h2>
+        </div>
+    </div>
+    {% endfor %}
+</main>
+
+<div class="action-buttons">
+    <form method="GET" action="{{ url_for('generator_bp.generator_page') }}">
+        <button class="btn-secondary">← Back</button>
+    </form>
+
+    <form id="generateForm" method="POST" action="{{ url_for('generator_bp.initialize_document') }}">
+        <input type="hidden" name="doc_type" value="{{ doc_type }}">
+        <input type="hidden" id="tableDataInput" name="table_data">
+        <button type="submit" class="btn-primary">Generate</button>
+    </form>
+</div>
+
+<!-- Modal -->
+<div id="tableModal" class="modal hidden">
+    <div class="modal-content">
+        <h2 id="modalTitle">Edit Table</h2>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Loading indicator -->
+<div id="loadingIndicator" class="loading">
+    <div class="spinner" role="status" aria-label="Loading"></div>
+    <div id="loadingText" class="loading-text">
+        Preparing document…
+    </div>
+</div>
+
+<!-- JSON for JS -->
+<script id="table-data" type="application/json">
+  {{ tables | tojson | safe }}
+</script>
+
+<script id="table-meta" type="application/json">
+  {{ table_meta | tojson | safe }}
+</script>
+
+<script id="generator-ui-config" type="application/json">
+  {{ generator_ui_config | tojson }}
+</script>
+{% endblock %}

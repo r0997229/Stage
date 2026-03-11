@@ -1,0 +1,177 @@
+/*app\static\css\generator.css*/
+
+/* ===== HEADER ===== */
+header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+header h1 {
+    font-size: 1.6rem;
+    color: #005a9e;
+    margin-bottom: 5px;
+}
+header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* ===== FORM GRID ===== */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+/* ===== INPUTS & TEXTAREA ===== */
+input[type="text"],
+textarea {
+    background-color: #fafbff;
+    border: 1px solid #ccd5e0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #0078d4;
+    box-shadow: 0 0 4px rgba(0,120,212,0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+    width: 100%;
+}
+
+/* ===== DROPDOWNS ===== */
+.dropdown {
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.dropdown-selected {
+    background: #fafbff;
+    border: 1px solid #ccd5e0;
+    border-radius: 8px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-selected::after {
+    content: "▼";
+    font-size: 0.7rem;
+    color: #666;
+    margin-left: 8px;
+}
+
+.dropdown.open .dropdown-selected {
+    border-color: #0078d4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fafbff;
+    border: 1px solid #ccd5e0;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    max-height: 120px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+}
+
+.dropdown.open .dropdown-options {
+    display: block;
+}
+
+.dropdown-options div {
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.dropdown-options div:hover {
+    background: #e7f0fb;
+}
+
+.dropdown.error .dropdown-selected {
+    border-color: #d93025 !important;
+    box-shadow: 0 0 4px rgba(217, 48, 37, 0.25) !important;
+}
+
+/* ===== ERROR MESSAGES ===== */
+.error-message {
+    color: #d93025;
+    font-size: 0.8rem;
+    margin-top: 2px;
+    display: none;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background: #0078d4;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.1s ease;
+    width: 100%;
+}
+.btn-primary:hover {
+    background: #005a9e;
+}
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #777;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+}
+
+/* ---- FIX CHROME AUTOFILL BLUE BACKGROUND ---- */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #fafbff inset !important;
+    box-shadow: 0 0 0px 1000px #fafbff inset !important;
+    background-color: #fafbff !important;
+    caret-color: #333 !important;
+}

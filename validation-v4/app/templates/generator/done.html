@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% set active_page = "generator" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/done.css') }}"> 
+{% endblock %}
+
+{% block content %}
+<div class="done-wrapper">
+
+    <h1 class="done-title">Your Document is Ready!</h1>
+    <p class="done-subtitle">Download your generated file below.</p>
+
+    <a href="{{ download_url }}" class="download-btn">Download Document</a>
+</div>
+{% endblock %}

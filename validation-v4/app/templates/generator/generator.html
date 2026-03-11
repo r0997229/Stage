@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% set active_page = "generator" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/generator.css') }}"> 
+<script src="{{ url_for('static', filename='js/generator.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<header class="page-header">
+    <h1>Pharma IT Validation Document Generator</h1>
+    <p>Automated GAMP 5 (Second Edition) compliant documentation</p>
+</header>
+
+<main>
+    <form id="validationForm" class="form-grid" action="/document_inputs" method="POST" autocomplete="off" novalidate>
+
+        <!-- System Name -->
+        <div class="form-group">
+            <label for="system_name">System Name</label>
+            <input type="text" id="system_name" name="system_name" placeholder="e.g., LIMS">
+        </div>
+
+        <!-- System Version -->
+        <div class="form-group">
+            <label for="system_version">Version</label>
+            <input type="text" id="system_version" name="system_version" placeholder="v3.2">
+        </div>
+
+        <!-- Document Type -->
+        <div class="form-group">
+            <label for="doc_type">Document Type</label>
+            <div class="dropdown" data-name="doc_type">
+                <div class="dropdown-selected" tabindex="0">Select a document type...</div>
+                <div class="dropdown-options">
+                    {% for value, label in doc_types.items() %}
+                        <div data-value="{{ value }}">{{ label }}</div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="doc_type">
+            </div>
+        </div>
+
+        <!-- System Type -->
+        <div class="form-group">
+            <label for="system_type">System Type</label>
+            <div class="dropdown" data-name="system_type">
+                <div class="dropdown-selected" tabindex="0">Select system type...</div>
+                <div class="dropdown-options">
+                    <div data-value="Hardware">Hardware</div>
+                    <div data-value="Software">Software</div>
+                    <div data-value="Embedded">Embedded</div>
+                    <div data-value="Hybrid">Hybrid</div>
+                    <div data-value="Infrastructure">Infrastructure</div>
+                    <div data-value="Other">Other</div>
+                </div>
+                <input type="hidden" name="system_type">
+            </div>
+        </div>
+
+        <!-- Complexity -->
+        <div class="form-group">
+            <label for="complexity">Complexity</label>
+            <div class="dropdown" data-name="complexity">
+                <div class="dropdown-selected" tabindex="0">Select category...</div>
+                <div class="dropdown-options">
+                    <div data-value="Category 1 – Infrastructure Software">Category 1 – Infrastructure Software</div>
+                    <div data-value="Category 3 – Non-Configured Products">Category 3 – Non-Configured Products</div>
+                    <div data-value="Category 4 – Configured Products">Category 4 – Configured Products</div>
+                    <div data-value="Category 5 – Custom Applications">Category 5 – Custom Applications</div>
+                </div>
+                <input type="hidden" name="complexity">
+            </div>
+        </div>
+
+        <!-- GxP Impact -->
+        <div class="form-group">
+            <label for="gxp_impact">GxP Impact</label>
+            <div class="dropdown" data-name="gxp_impact">
+                <div class="dropdown-selected" tabindex="0">Select impact...</div>
+                <div class="dropdown-options">
+                    <div data-value="Direct">Direct Impact</div>
+                    <div data-value="Indirect">Indirect Impact</div>
+                    <div data-value="None">No GxP Impact</div>
+                </div>
+                <input type="hidden" name="gxp_impact">
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="form-group full-width">
+            <label for="additional_info">Additional Information</label>
+            <textarea id="additional_info" name="additional_info"
+                      placeholder="Add notes, validation scope, or special system considerations..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions full-width">
+            <button type="submit" class="btn-primary" aria-label="Generate validation document">
+                Next
+            </button>
+        </div>
+
+    </form>
+
+</main>
+
+<footer>
+    <p>© 2025 Pharma IT Validation | Automated GAMP 5 (Second Edition) Compliance Framework</p>
+</footer>
+
+{% endblock %}
