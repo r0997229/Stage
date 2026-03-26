@@ -20,27 +20,45 @@
         <!-- File Upload -->
         <div class="form-group full-width">
             <label for="document">Validation Document</label>
+
+            <!-- Upload zone: zichtbaar als er geen bestand is -->
             <div class="upload-zone" id="uploadZone">
                 <input type="file" id="document" name="document" accept=".pdf,.docx">
                 <div class="upload-content">
-                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 16V8m0 0-3 3m3-3 3 3" />
-                        <path d="M20 16.5A3.5 3.5 0 0 0 16.5 13H15a5 5 0 1 0-9.9 1A4 4 0 1 0 6 22h13a3 3 0 0 0 1-5.5" />
-                    </svg>
+                    <img class="upload-icon" src="{{ url_for('static', filename='img/cloud.png') }}"
+                        alt="Upload cloud icon">
                     <p class="upload-label">
                         <strong>Click to upload</strong> or drag and drop
                     </p>
                     <p class="upload-hint">PDF or DOCX</p>
                 </div>
-                <p class="upload-filename" id="uploadFilename"></p>
             </div>
+
+            <!-- File chip: zichtbaar na upload -->
+            <div class="file-chip" id="fileChip">
+                <div class="file-chip-icon" id="fileChipIcon"></div>
+                <div class="file-chip-info">
+                    <span class="file-chip-name" id="fileChipName"></span>
+                    <span class="file-chip-meta" id="fileChipMeta"></span>
+                </div>
+                <button type="button" class="file-chip-remove" id="trashBtn" aria-label="Remove file"
+                    title="Remove file">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6M14 11v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                    </svg>
+                </button>
+            </div>
+
             <span class="error-message" id="fileError">Please select a PDF or DOCX file.</span>
         </div>
 
         <!-- Submit -->
         <div class="form-actions full-width">
-            <button type="submit" class="btn-primary" id="submitBtn" aria-label="Analyse document">
+            <button type="submit" class="btn-primary" id="submitBtn" aria-label="Analyse document" disabled>
                 Analyse Document
             </button>
         </div>
