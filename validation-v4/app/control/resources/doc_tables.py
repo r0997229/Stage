@@ -1,4 +1,4 @@
-#app\data\doc_tables.py
+#app\control\resources\doc_tables.py
 
 TABLE_META = {
     "VP": {

@@ -1,4 +1,4 @@
-#app\config\resources\doc_output_structure.py
+#app\control\resources\doc_output_structure.py
 
 DOCUMENT_SCHEMA = {
     "VP": {

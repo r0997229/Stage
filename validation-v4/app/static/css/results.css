@@ -1,0 +1,268 @@
+/* app\static\css\results.css */
+
+/* ===== HEADER ===== */
+header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+header h1 {
+    font-size: 1.6rem;
+    color: #005a9e;
+    margin-bottom: 5px;
+}
+header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* ===== META BAR ===== */
+.results-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fafbff;
+    border: 1px solid #ccd5e0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+}
+
+.meta-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 56px;
+}
+
+.meta-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0078d4;
+    line-height: 1.1;
+}
+
+.meta-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.meta-divider {
+    width: 1px;
+    height: 32px;
+    background: #ccd5e0;
+}
+
+/* Push back-link to the right */
+.btn-secondary {
+    margin-left: auto;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #0078d4;
+    text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid #0078d4;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-secondary:hover {
+    background: #0078d4;
+    color: #fff;
+}
+
+/* ===== RESULTS GRID ===== */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px 25px;
+}
+
+/* ===== RESULT CARD ===== */
+.result-card {
+    background: #fafbff;
+    border: 1px solid #ccd5e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.result-card.card-compliant {
+    border-color: #1e7d5a;
+    background: #f2faf7;
+}
+
+.result-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f0f4fa;
+    border-bottom: 1px solid #ccd5e0;
+}
+
+.card-compliant .result-card-header {
+    background: #e6f4ef;
+    border-bottom-color: #b6dece;
+}
+
+.result-card-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1c2333;
+}
+
+/* Suggestion count badge */
+.badge-count {
+    flex-shrink: 0;
+    background: #0078d4;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 2px 8px;
+    min-width: 22px;
+    text-align: center;
+}
+
+/* Compliant badge */
+.badge-compliant {
+    flex-shrink: 0;
+    background: #1e7d5a;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 2px 8px;
+    white-space: nowrap;
+}
+
+/* ===== SUGGESTIONS LIST ===== */
+.suggestions-list {
+    margin: 0;
+    padding: 10px 14px 12px 14px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.suggestion-item {
+    position: relative;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #333;
+    padding-left: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    user-select: none;
+}
+
+.suggestion-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #0078d4;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    color: #555;
+}
+
+/* Dismissed state */
+.suggestion-item.dismissed {
+    text-decoration: line-through;
+    color: #bbb;
+    opacity: 0.6;
+}
+
+.suggestion-item.dismissed::before {
+    color: #ccc;
+}
+
+/* ===== CONFIRM BAR ===== */
+.confirm-bar {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: #fff;
+    border-top: 1px solid #ccd5e0;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07);
+    padding: 12px 18px;
+    margin-top: 24px;
+    border-radius: 8px 8px 0 0;
+}
+
+.confirm-bar-text {
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.confirm-bar-text span {
+    font-weight: 700;
+    color: #0078d4;
+}
+
+/* dismissed counter in meta bar */
+#dismissedCount {
+    color: #aaa;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background: #0078d4;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.25s ease, transform 0.1s ease;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: #005a9e;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #777;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+    margin-top: 30px;
+}

@@ -1,0 +1,33 @@
+GAXP -> valideren van IT-systemen voor Mediche omgeving
+GAMP -> internationale gids voor validatie in medische omgeving
+
+API -> regels en afspraken waarmee verschillende softwareprogramma’s met elkaar kunnen communiceren. (Zonder de code te kennen)
+Framework -> een verzameling van tools, bibliotheken en regels die je helpen om sneller en gestructureerder een applicatie te bouwen.
+
+Stappen : 
+
+Client:
+
+form (
+    text area (input)
+    button (submit)
+)
+
+Server :
+
+1. data ophalen
+2. prompt bouwen
+3. communicatie met AI
+4. antwoord ophalen
+5. antwoord verwerken
+
+---
+
+Arch (structuur)
+
+routes : controller (main functie)
+service : methodes
+static : css, js, img
+template : html
+
+---

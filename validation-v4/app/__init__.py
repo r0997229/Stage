@@ -11,6 +11,7 @@ from flask_session import Session
 from .config import Config
 from .routes.chatbot_routes import chatbot_bp
 from .routes.generator_routes import generator_bp
+from .routes.verificator_routes import verificator_bp
 from .routes.resource_ingest_routes import resource_ingest_bp
 from .util.paths import SESSIONS_DIR
 
@@ -72,4 +73,5 @@ def _register_blueprints(app: Flask) -> None:
     """
     app.register_blueprint(chatbot_bp)
     app.register_blueprint(generator_bp)
+    app.register_blueprint(verificator_bp)
     app.register_blueprint(resource_ingest_bp)

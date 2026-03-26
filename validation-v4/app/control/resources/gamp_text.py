@@ -1,4 +1,4 @@
-#app\config\resources\gamp_text.py
+#app\control\resources\gamp_text.py
 
 """
 GAMP 5 Second Edition reference text used by the chatbot.

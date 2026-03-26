@@ -31,4 +31,5 @@ STORAGE_ROOT = PROJECT_ROOT / "storage"
 # Subfolders (runtime)
 SESSIONS_DIR = STORAGE_ROOT / "sessions"
 OUTPUT_DIR = STORAGE_ROOT / "output"
+UPLOAD_DIR = STORAGE_ROOT / "upload"
 CHROMA_DIR = STORAGE_ROOT / "chroma_db"

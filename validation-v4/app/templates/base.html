@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ title or "Pharma IT Validation" }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -14,27 +15,27 @@
     <header class="top-bar">
         <nav class="main-nav">
             <a href="{{ url_for('chatbot_bp.chatbot_page') }}"
-            class="{{ 'active' if active_page == 'chatbot' else '' }}">
+                class="{{ 'active' if active_page == 'chatbot' else '' }}">
                 Chatbot
             </a>
 
             <a href="{{ url_for('generator_bp.generator_page') }}"
-            class="{{ 'active' if active_page == 'generator' else '' }}">
+                class="{{ 'active' if active_page == 'generator' else '' }}">
                 Generator
             </a>
 
-            <span class="disabled">Verificator</span>
+            <a href="{{ url_for('verificator_bp.verificator_page') }}"
+                class="{{ 'active' if active_page == 'verificator' else '' }}">
+                Verificator
+            </a>
 
-            <a href="{{ url_for('resource_ingest_bp.ingest_template') }}"
-            class="debug">
+            <a href="{{ url_for('resource_ingest_bp.ingest_template') }}" class="debug">
                 Ingest Resources
             </a>
         </nav>
 
         <div class="brand">
-            <img src="{{ url_for('static', filename='img/gaxp-logo.png') }}"
-                alt="GxP Logo"
-                class="app-logo">
+            <img src="{{ url_for('static', filename='img/gaxp-logo.png') }}" alt="GxP Logo" class="app-logo">
         </div>
     </header>
 
@@ -47,18 +48,19 @@
 
     <div id="toastContainer" class="toast-container"></div>
     {% if toast_error %}
-        <script id="toast-data" type="application/json">
+    <script id="toast-data" type="application/json">
             {{ {"message": toast_error} | tojson }}
         </script>
 
-        <script type="module">
-            import { showToast } from "{{ url_for('static', filename='js/toast.js') }}";
-            const el = document.getElementById("toast-data");
-            if (el) {
+    <script type="module">
+        import { showToast } from "{{ url_for('static', filename='js/toast.js') }}";
+        const el = document.getElementById("toast-data");
+        if (el) {
             const data = JSON.parse(el.textContent);
             if (data?.message) showToast(data.message, "error");
-            }
-        </script>
+        }
+    </script>
     {% endif %}
 </body>
+
 </html>
