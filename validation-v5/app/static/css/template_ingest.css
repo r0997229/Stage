@@ -1,0 +1,193 @@
+/* app/static/css/template_ingest.css */
+
+.ti-wrap {
+  max-width: 920px;
+  margin: 28px auto;
+  padding: 0 14px;
+}
+
+.ti-header h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.ti-subtitle {
+  margin: 0 0 18px;
+  color: var(--muted, #6b7280);
+}
+
+.ti-card {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.85);
+  padding: 18px;
+}
+
+.ti-form {
+  display: grid;
+  gap: 16px;
+}
+
+.ti-row {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.ti-row input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;
+}
+
+.ti-hint {
+  font-size: 13px;
+  color: var(--muted, #6b7280);
+}
+
+.ti-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ti-inline-label {
+  font-weight: 500;
+  color: var(--muted, #6b7280);
+}
+
+.ti-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.ti-actions button {
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.04);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ti-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ti-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0.15);
+  border-top-color: rgba(0,0,0,0.55);
+  animation: ti-spin 0.9s linear infinite;
+}
+
+@keyframes ti-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ti-hidden { display: none; }
+
+.ti-alert {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.03);
+}
+
+.ti-alert.ok { border-color: rgba(16, 185, 129, 0.45); }
+.ti-alert.err { border-color: rgba(239, 68, 68, 0.45); }
+
+.ti-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+}
+
+.ti-details pre {
+  margin: 10px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.03);
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* ===== DROPDOWN (from your snippet) ===== */
+.dropdown {
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.dropdown-selected {
+  background: #fafbff;
+  border: 1px solid #ccd5e0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-selected::after {
+  content: "▼";
+  font-size: 0.7rem;
+  color: #666;
+  margin-left: 8px;
+}
+
+.dropdown.open .dropdown-selected {
+  border-color: #0078d4;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fafbff;
+  border: 1px solid #ccd5e0;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: none;
+  z-index: 10;
+}
+
+.dropdown.open .dropdown-options {
+  display: block;
+}
+
+.dropdown-options div {
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.dropdown-options div:hover {
+  background: #e7f0fb;
+}
+
+.dropdown.error .dropdown-selected {
+  border-color: #d93025;
+  box-shadow: 0 0 4px rgba(217, 48, 37, 0.25);
+}

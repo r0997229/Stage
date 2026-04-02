@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/template_ingest.css') }}">
+<script defer src="{{ url_for('static', filename='js/template_ingest.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ti-wrap">
+  <header class="ti-header">
+    <h1>Template ingest</h1>
+    <p class="ti-subtitle">Upload a DOCX/PDF template to parse it into structured resources.</p>
+  </header>
+
+  <section class="ti-card">
+    <form id="templateIngestForm"
+          class="ti-form"
+          method="POST"
+          action="{{ url_for('resource_ingest_bp.ingest_template_post') }}"
+          enctype="multipart/form-data">
+
+      <div class="ti-row">
+        <label for="doc_type">Document Type</label>
+
+        <div class="dropdown" data-name="doc_type">
+          <div class="dropdown-selected" tabindex="0">Select a document type...</div>
+          <div class="dropdown-options">
+            <div data-value="VP">Validation Plan</div>
+            <div data-value="RA">Risk Assessment</div>
+            <div data-value="VR">Validation Report</div>
+          </div>
+          <input type="hidden" name="doc_type" id="doc_type">
+        </div>
+      </div>
+
+      <div class="ti-row">
+        <label for="ti-file">Document</label>
+        <input
+          id="ti-file"
+          name="file"
+          type="file"
+          accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          required
+        />
+        <div class="ti-hint">Allowed: .docx, .pdf</div>
+      </div>
+
+      <div class="ti-row ti-inline">
+        <input id="ti-overwrite" name="overwrite" type="checkbox" />
+        <label for="ti-overwrite" class="ti-inline-label">Overwrite if template exists</label>
+      </div>
+
+      <div class="ti-actions">
+        <button id="ti-submit" type="submit">Ingest</button>
+        <div id="ti-spinner" class="ti-spinner ti-hidden" aria-hidden="true"></div>
+      </div>
+
+    </form>
+  </section>
+</div>
+{% endblock %}

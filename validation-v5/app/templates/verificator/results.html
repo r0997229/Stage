@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% set active_page = "verificator" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/verificator/results.css') }}">
+<script src="{{ url_for('static', filename='js/verificator/results.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<header class="page-header">
+    <h1>GAMP 5 Analysis Results</h1>
+    <p>GAMP 5 (Second Edition) compliance recommendations</p>
+</header>
+
+<main>
+
+    {% if results %}
+
+    {% set total = namespace(count=0) %}
+    {% for suggestions in results.values() %}
+    {% set total.count = total.count + suggestions|length %}
+    {% endfor %}
+
+    <div class="results-meta">
+        <div class="meta-stat">
+            <span class="meta-value">{{ results|length }}</span>
+            <span class="meta-label">Section(s)</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-stat">
+            <span class="meta-value" id="activeCount">{{ total.count }}</span>
+            <span class="meta-label">Active</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-stat">
+            <span class="meta-value" id="dismissedCount">0</span>
+            <span class="meta-label">Dismissed</span>
+        </div>
+        <a href="{{ url_for('verificator_bp.verificator_page') }}" class="btn-secondary">
+            ← New Analysis
+        </a>
+    </div>
+
+    <div class="results-grid">
+        {% for section, suggestions in results.items() %}
+        <div class="result-card {{ 'card-compliant' if not suggestions else '' }}">
+            <div class="result-card-header">
+                <h4>{{ section }}</h4>
+                {% if not suggestions %}
+                <span class="badge-compliant">✓ Compliant</span>
+                {% else %}
+                <span class="badge-count" data-section="{{ loop.index }}">{{ suggestions|length }}</span>
+                {% endif %}
+            </div>
+            {% if suggestions %}
+            <ul class="suggestions-list">
+                {% for s in suggestions %}
+                <li class="suggestion-item" title="Click to dismiss / restore">{{ s }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Sticky confirm bar -->
+    <div class="confirm-bar" id="confirmBar">
+        <span class="confirm-bar-text">
+            <span id="confirmCount">{{ total.count }}</span> suggestion(s) will be confirmed
+        </span>
+        <button type="button" class="btn-primary" id="confirmBtn">Confirm &amp; Export</button>
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+        <p>No results to display. Please try again with another document.</p>
+        <a href="{{ url_for('verificator_bp.verificator_page') }}" class="btn-primary">
+            ← New Analysis
+        </a>
+    </div>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    <p>© 2025 Pharma IT Validation | Automated GAMP 5 (Second Edition) Compliance Framework</p>
+</footer>
+
+{% endblock %}

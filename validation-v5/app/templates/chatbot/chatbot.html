@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot/chatbot.css') }}">
+<script src="{{ url_for('static', filename='js/chatbot/chatbot.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="chat-layout">
+    <!-- Main card -->
+    <section class="chat-card" aria-label="GAMP chatbot conversation">
+        <header class="chat-card__header">
+            <div class="chat-card__title-block">
+                <div class="chat-card__icon" aria-hidden="true">G5</div>
+                <div>
+                    <h1 class="chat-card__title">GAMP 5 Chatbot</h1>
+                    <p class="chat-card__subtitle">
+                        Ask questions about GAMP 5 Second Edition and get traceable, source-backed answers.
+                    </p>
+                </div>
+            </div>
+            <span class="chat-card__badge">Validation Assistant</span>
+        </header>
+
+        <!-- Chat messages -->
+        <div id="chatArea" class="chat-thread" aria-live="polite">
+            {% if exchanges %}
+            {% for ex in exchanges %}
+            <!-- User message -->
+            <article class="chat-bubble chat-bubble--user">
+                <header class="chat-bubble__meta">
+                    <span class="chat-bubble__author">You</span>
+                </header>
+                <p class="chat-bubble__body">{{ ex.question }}</p>
+            </article>
+
+            <!-- Bot message -->
+            <article class="chat-bubble chat-bubble--bot">
+                <header class="chat-bubble__meta">
+                    <span class="chat-bubble__author">Bot</span>
+                    <span class="chat-bubble__role">GAMP 5 Expert</span>
+                </header>
+
+                <div class="chat-bubble__body">{% for paragraph in ex.reply %}<p>{{ paragraph }}</p>{% endfor %}</div>
+
+
+                {% if ex.sources %}
+                <footer class="chat-bubble__footer">
+                    <div class="chat-sources" aria-label="Answer sources">
+                        <span class="chat-sources__label">Sources:</span>
+                        <div class="chat-sources__list">
+                            {% for src in ex.sources %}
+                            <button type="button" class="chip chip--source source-link" data-proof="{{ src.proof }}">
+                                {{ src.source }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </footer>
+                {% endif %}
+            </article>
+            {% endfor %}
+            {% else %}
+            <div class="chat-thread__empty">
+                <p class="chat-thread__empty-title">No questions yet.</p>
+                <p class="chat-thread__empty-text">
+                    Start by asking a question about GAMP 5 Second Edition. The assistant will answer
+                    using only the official guidance excerpts and show you which parts were used.
+                </p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Input area -->
+        <form class="chat-input" id="chatForm" method="POST" action="{{ url_for('chatbot_bp.chatbot_ask') }}">
+            <div class="chat-input__field">
+                <label for="questionInput" class="chat-input__label">
+                    Ask a GAMP question
+                </label>
+                <div class="chat-input__textarea-wrapper">
+                    <textarea id="questionInput" name="question"
+                        placeholder="e.g. How does GAMP 5 approach risk-based validation of computerized systems?"
+                        rows="1" maxlength="{{ chatbot_config.maxQuestionChars }}"
+                        required>{{ draft_question | default('') }}</textarea>
+                    <div class="chat-input__meta">
+                        <span id="charCounter" class="chat-input__counter">
+                            0 / {{ chatbot_config.maxQuestionChars }}
+                        </span>
+                        <span class="chat-input__hint">
+                            Press <kbd>Enter</kbd> to send, <kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input__actions">
+                <button type="submit" id="sendBtn" class="btn btn--primary" disabled>
+                    <span class="btn__label">Send</span>
+                    <span class="btn__spinner" aria-hidden="true"></span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Side panel -->
+    <aside class="chat-sidebar" aria-label="Chatbot information">
+        <div class="panel">
+            <h2 class="panel__title">How this assistant works</h2>
+            <p class="panel__text">
+                This chatbot is specialized in <strong>GAMP 5 Second Edition</strong>. It answers strictly
+                based on curated excerpts and will show which sections support the response.
+            </p>
+            <ul class="panel__list">
+                <li>Answers are grounded in the provided GAMP context.</li>
+                <li>If the context is insufficient, the bot will clearly say so.</li>
+                <li>Each answer can show traceable source excerpts.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3 class="panel__subtitle">Tips for better questions</h3>
+            <ul class="panel__list panel__list--bullets">
+                <li>Be specific about the lifecycle phase or activity.</li>
+                <li>Mention if you are asking from a QA, IT, or business perspective.</li>
+                <li>Ask one focused question at a time for clearer results.</li>
+            </ul>
+        </div>
+
+        <div class="panel panel--secondary">
+            <h3 class="panel__subtitle">Limitations</h3>
+            <p class="panel__text">
+                The assistant does not replace your internal procedures or regulatory guidance.
+                Always align decisions with your company QMS and regulatory requirements.
+            </p>
+        </div>
+    </aside>
+</div>
+
+<!-- Proof popup modal -->
+<div id="proofModal" class="modal modal--hidden" role="dialog" aria-modal="true" aria-labelledby="proofModalTitle">
+    <div class="modal__content">
+        <header class="modal__header">
+            <h2 id="proofModalTitle" class="modal__title">Source excerpt</h2>
+            <button type="button" class="modal__close" aria-label="Close source excerpt dialog">
+                &times;
+            </button>
+        </header>
+        <div class="modal__body">
+            <p id="proofText" class="modal__text"></p>
+        </div>
+    </div>
+</div>
+
+<script id="chatbot-config" type="application/json">
+  {{ chatbot_config | tojson }}
+</script>
+{% endblock %}
+
+{% if toast_error %}
+<script type="module">
+    import { showToast } from "{{ url_for('static', filename='js/toast.js') }}";
+    showToast("{{ toast_error }}", "error");
+</script>
+{% endif %}

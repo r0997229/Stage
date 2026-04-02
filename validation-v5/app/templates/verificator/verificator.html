@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% set active_page = "verificator" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/verificator/verificator.css') }}">
+<script src="{{ url_for('static', filename='js/verificator/verificator.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<header class="page-header">
+    <h1>Pharma IT Validation Document Verificator</h1>
+    <p>GAMP 5 (Second Edition) compliance analysis for validation documents</p>
+</header>
+
+<main>
+    <form id="verificatorForm" class="form-grid" action="/document_retrieval" method="POST"
+        enctype="multipart/form-data" novalidate>
+
+        <!-- File Upload -->
+        <div class="form-group full-width">
+            <label for="document">Validation Document</label>
+
+            <!-- Input verborgen, buiten de zone -->
+            <input type="file" id="document" name="document" accept=".pdf,.docx" style="display:none">
+
+            <!-- Upload zone: zichtbaar als er geen bestand is -->
+            <div class="upload-zone" id="uploadZone">
+                <div class="upload-content">
+                    <img class="upload-icon" src="{{ url_for('static', filename='img/cloud.png') }}"
+                        alt="Upload cloud icon">
+                    <p class="upload-label">
+                        <strong>Click to upload</strong> or drag and drop
+                    </p>
+                    <p class="upload-hint">PDF or DOCX</p>
+                </div>
+            </div>
+
+            <!-- File chip: zichtbaar na upload -->
+            <div class="file-chip" id="fileChip">
+                <div class="file-chip-icon" id="fileChipIcon"></div>
+                <div class="file-chip-info">
+                    <span class="file-chip-name" id="fileChipName"></span>
+                    <span class="file-chip-meta" id="fileChipMeta"></span>
+                </div>
+                <button type="button" class="file-chip-remove" id="trashBtn" aria-label="Remove file"
+                    title="Remove file">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6M14 11v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                    </svg>
+                </button>
+            </div>
+
+            <span class="error-message" id="fileError"></span>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-actions full-width">
+            <button type="submit" class="btn-primary" id="submitBtn" aria-label="Analyse document" disabled>
+                Analyse Document
+            </button>
+        </div>
+
+    </form>
+</main>
+
+<footer>
+    <p>© 2025 Pharma IT Validation | Automated GAMP 5 (Second Edition) Compliance Framework</p>
+</footer>
+
+{% endblock %}
