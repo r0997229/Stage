@@ -1,5 +1,20 @@
 /* app\static\css\verificator\verificator.css */
 
+/* TEMP */
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.alert-error {
+    background: #fff0f0;
+    border: 1px solid #f5c2c2;
+    color: #c0392b;
+}
+
 /* ===== HEADER ===== */
 header {
     text-align: center;

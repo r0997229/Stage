@@ -43,7 +43,7 @@ def ask_gamp(question: str) -> ChatbotResponse:
 
     # AI call exception -> toast only
     try:
-        payload = call_openai(prompt, MODEL, EFFORT, VERBOSITY, SYSTEM, INSTRUCTIONS)
+        payload = call_openai(prompt, MODEL, EFFORT, VERBOSITY, SYSTEM, INSTRUCTIONS, None)
     except OpenAIError as exc:
         logger.exception("Chatbot OpenAI call failed: %s", exc)
         return ChatbotResponse(

@@ -21,8 +21,27 @@ PROMPT = (
     "its compliance with GAMP 5.\n\n"
     "Output format requirements:\n"
     "- The response must be valid JSON only — no markdown, no prose outside the JSON.\n"
-    "- Each key must be the exact section title found in the document.\n"
-    "- Each value must be a list of suggestion strings for that section.\n"
-    "- If a section has no suggestions, return an empty list as its value.\n\n"
-    '- Example: {"1 Introduction": ["Add a GxP impact statement."], "2 Scope": []}'
+    "- Return a JSON object with one key: 'suggestions'.\n"
+    "- 'suggestions' is a list of objects, each with exactly these four keys:\n"
+    "    'section'     : the exact section title found in the document.\n"
+    "    'title'       : a short title for the suggestion (max 10 words).\n"
+    "    'description' : a detailed explanation of the suggestion.\n"
+    "    'source'      : the exact verbatim text copied from the document that "
+    "justifies this suggestion. Do NOT paraphrase or summarize — copy the text word for word as it appears in the document.\n"
+    "- If a section has no suggestions, do not include it.\n\n"
+    "Example:\n"
+    '{"suggestions": [\n'
+    '    {\n'
+    '        "section": "1 Introduction",\n'
+    '        "title": "Add GxP impact statement",\n'
+    '        "description": "The introduction lacks a clear GxP impact statement explaining how this system affects product quality.",\n'
+    '        "source": "This document describes the validation of the LIMS system used in the QC laboratory."\n'
+    '    },\n'
+    '    {\n'
+    '        "section": "2 Scope",\n'
+    '        "title": "Clarify system boundaries",\n'
+    '        "description": "The scope does not define the boundaries of the validated system.",\n'
+    '        "source": "The scope of this validation covers all modules of the LIMS system."\n'
+    '    }\n'
+    "]}"
 )

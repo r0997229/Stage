@@ -3,7 +3,6 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/verificator/results.css') }}">
-<script src="{{ url_for('static', filename='js/verificator/results.js') }}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -14,62 +13,91 @@
 </header>
 
 <main>
-
-    {% if results %}
-
-    {% set total = namespace(count=0) %}
-    {% for suggestions in results.values() %}
-    {% set total.count = total.count + suggestions|length %}
-    {% endfor %}
+    <nav class="top-toolbar">
+        <a href="{{ url_for('verificator_bp.verificator_page') }}" class="toolbar-btn">← New Analysis</a>
+        <div class="toolbar-divider"></div>
+        <button class="toolbar-btn" id="btnAddSection">＋ Add Section</button>
+        <div style="flex:1"></div>
+        <form method="POST" action="{{ url_for('verificator_bp.delete_project', project_id=project.id) }}"
+            onsubmit="return confirm('Delete this project and all its suggestions?')">
+            <button type="submit" class="toolbar-btn toolbar-btn-danger">Delete Project</button>
+        </form>
+    </nav>
+    {% if grouped %}
 
     <div class="results-meta">
         <div class="meta-stat">
-            <span class="meta-value">{{ results|length }}</span>
+            <span class="meta-value" id="metaSectionCount">{{ grouped|length }}</span>
             <span class="meta-label">Section(s)</span>
         </div>
         <div class="meta-divider"></div>
         <div class="meta-stat">
-            <span class="meta-value" id="activeCount">{{ total.count }}</span>
-            <span class="meta-label">Active</span>
+            <span class="meta-value" id="metaSuggestionCount">
+                {% set total = namespace(count=0) %}
+                {% for suggestions in grouped.values() %}
+                {% set total.count = total.count + suggestions|length %}
+                {% endfor %}
+                {{ total.count }}
+            </span>
+            <span class="meta-label">Suggestions</span>
         </div>
-        <div class="meta-divider"></div>
-        <div class="meta-stat">
-            <span class="meta-value" id="dismissedCount">0</span>
-            <span class="meta-label">Dismissed</span>
-        </div>
-        <a href="{{ url_for('verificator_bp.verificator_page') }}" class="btn-secondary">
-            ← New Analysis
-        </a>
     </div>
 
-    <div class="results-grid">
-        {% for section, suggestions in results.items() %}
-        <div class="result-card {{ 'card-compliant' if not suggestions else '' }}">
+    <div class="results-grid" id="resultsGrid">
+        {% for section, suggestions in grouped.items() %}
+        <div class="result-card {{ 'card-compliant' if not suggestions else '' }}" data-section="{{ section }}"
+            data-custom-section="false">
+
             <div class="result-card-header">
                 <h4>{{ section }}</h4>
-                {% if not suggestions %}
-                <span class="badge-compliant">✓ Compliant</span>
-                {% else %}
-                <span class="badge-count" data-section="{{ loop.index }}">{{ suggestions|length }}</span>
-                {% endif %}
+                <div class="header-right">
+                    {% if not suggestions %}
+                    <span class="badge-compliant">✓ Compliant</span>
+                    {% else %}
+                    <span class="badge-count">{{ suggestions|length }}</span>
+                    {% endif %}
+                    <span class="toggle-icon">▾</span>
+                </div>
             </div>
+
             {% if suggestions %}
-            <ul class="suggestions-list">
-                {% for s in suggestions %}
-                <li class="suggestion-item" title="Click to dismiss / restore">{{ s }}</li>
-                {% endfor %}
-            </ul>
+            <div class="card-body">
+                <ul class="suggestions-list">
+                    {% for s in suggestions %}
+                    <li class="suggestion-item" data-id="{{ section | replace(' ', '_') }}_{{ loop.index }}"
+                        data-title="{{ s.title }}" data-description="{{ s.description }}" data-source="{{ s.source }}"
+                        data-custom="false">
+                        <span class="status-dot" data-id="{{ section | replace(' ', '_') }}_{{ loop.index }}"></span>
+                        <span class="suggestion-title">{{ s.title }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="add-suggestion-form" style="display:none;">
+                    <input type="text" class="add-title-input" placeholder="Title…">
+                    <textarea class="add-desc-input" placeholder="Description…" rows="3"></textarea>
+                    <div class="add-form-actions">
+                        <button class="btn-add-confirm">Add</button>
+                        <button class="btn-add-cancel">Cancel</button>
+                    </div>
+                </div>
+                <button class="btn-add-suggestion">＋ Add suggestion</button>
+            </div>
+            {% else %}
+            <div class="card-body">
+                <div class="add-suggestion-form" style="display:none;">
+                    <input type="text" class="add-title-input" placeholder="Title…">
+                    <textarea class="add-desc-input" placeholder="Description…" rows="3"></textarea>
+                    <div class="add-form-actions">
+                        <button class="btn-add-confirm">Add</button>
+                        <button class="btn-add-cancel">Cancel</button>
+                    </div>
+                </div>
+                <button class="btn-add-suggestion">＋ Add suggestion</button>
+            </div>
             {% endif %}
+
         </div>
         {% endfor %}
-    </div>
-
-    <!-- Sticky confirm bar -->
-    <div class="confirm-bar" id="confirmBar">
-        <span class="confirm-bar-text">
-            <span id="confirmCount">{{ total.count }}</span> suggestion(s) will be confirmed
-        </span>
-        <button type="button" class="btn-primary" id="confirmBtn">Confirm &amp; Export</button>
     </div>
 
     {% else %}
@@ -85,8 +113,53 @@
 
 </main>
 
+<!-- Add section modal -->
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal" id="addSectionModal">
+    <div class="modal-header">
+        <h3>Add section</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+        <input type="text" id="sectionNameInput" class="add-title-input" placeholder="Section name…">
+    </div>
+    <div class="modal-footer">
+        <button class="btn-add-confirm" id="modalConfirm">Add</button>
+        <button class="btn-add-cancel" id="modalCancel">Cancel</button>
+    </div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="drawer">
+    <div class="drawer-header">
+        <h3 id="drawerTitle"></h3>
+        <input type="text" id="drawerTitleInput" class="drawer-title-input" style="display:none" placeholder="Title…">
+        <button class="drawer-close" id="drawerClose">✕</button>
+    </div>
+    <div class="drawer-body">
+        <textarea id="drawerDescription" class="drawer-textarea" rows="6"></textarea>
+        <blockquote class="suggestion-source" id="drawerSource"></blockquote>
+    </div>
+    <div class="drawer-footer">
+        <span class="drawer-status-label">Status:</span>
+        <div class="status-actions">
+            <button class="status-btn status-orange" data-status="in_progress">● In progress</button>
+            <button class="status-btn status-green" data-status="validated">● Validated</button>
+            <button class="status-btn status-red" data-status="to_remove">● Delete</button>
+            <button class="status-btn status-gray" data-status="unseen">● Reset</button>
+        </div>
+        <div class="drawer-desc-actions">
+            <button class="btn-add-confirm" id="btnSaveDescription" disabled>Save</button>
+            <button class="btn-add-cancel" id="btnCancelDescription">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <footer>
     <p>© 2025 Pharma IT Validation | Automated GAMP 5 (Second Edition) Compliance Framework</p>
 </footer>
+
+<script src="{{ url_for('static', filename='js/verificator/results.js') }}" defer></script>
 
 {% endblock %}
